@@ -25,6 +25,7 @@ public class HelloRequester : RunAbleThread
                     while (Running)
                     {
                         gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
+                        System.Threading.Thread.Sleep(16);
                         if (gotMessage) break;
                     }
 
