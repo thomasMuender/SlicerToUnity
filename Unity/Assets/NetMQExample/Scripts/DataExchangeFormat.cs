@@ -7,20 +7,22 @@ public class DataExchangeFormat
   public string identifier; // DICOM Datensatz
 
   // Headset
-  // Position x,y,z
-  // Rotation -> wie angegeben in Slicer?
-
+   public Vector3 headpos; // Position x,y,z
+   public Matrix4x4 headrot; // Rotation -> wie angegeben in Slicer? -- Slicer nimmt eine 3x3 matrix
+  
+  
   // Controller1
-  // Position x,y,z
-  // Rotation -> wie angegeben in Slicer?
+  public Vector3 ctr1pos;  // Position x,y,z
+  public Matrix4x4 ctr1rot;   // Rotation -> wie angegeben in Slicer?
 
   // Controller2
-  // Position x,y,z
-  // Rotation -> wie angegeben in Slicer?
+  public Vector3 ctr2pos;  // Position x,y,z
+  public Matrix4x4 ctr2rot;   // Rotation -> wie angegeben in Slicer?
 
-  // Bildnummer
+  public int stackno; // Stacknummer
+  public int imgno; // Bildnummer
 
-  // Kontrast (ggf. nach pull)
+  //public float contrast; // Kontrast (ggf. nach pull)
 
 
 }
