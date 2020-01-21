@@ -4,6 +4,7 @@ set(MODULE_NAME Connector)
 #-----------------------------------------------------------------------------
 set(MODULE_PYTHON_SCRIPTS
   ${MODULE_NAME}.py
+  ${MODULE_NAME}Lib/__init__
   )
 
 set(MODULE_PYTHON_RESOURCES
