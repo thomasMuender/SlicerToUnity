@@ -8,7 +8,6 @@ import zmq
 import numpy as np
 
 import ConnectorLib
-#from Infrastructure import communication_thread
 
 #
 # Connector
@@ -35,60 +34,6 @@ This file was originally developed by Jean-Christophe Fillion-Robin, Kitware Inc
 and Steve Pieper, Isomics, Inc. and was partially funded by NIH grant 3P41RR013218-12S1.
 """ # replace with organization, grant and thanks.
 
-
-class Communication:
-
-    isRunning = False
-
-    def __init__(self):
-        self.context = zmq.Context()
-
-        self.PUB = self.context.socket(zmq.PUB)
-        self.PUB.bind("tcp://*:5555")
-
-        self.SUB = self.context.socket(zmq.SUB)
-        self.SUB.bind("tcp://*:5556")
-        self.SUB.setsockopt_string(zmq.SUBSCRIBE, np.unicode(''))
-
-        self.REP = self.context.socket(zmq.REP)
-        self.REP.bind("tcp://*:5557")
-
-        self.run()
-        logging.info('Connection establihed')
-
-    def stop(self):
-        self.isRunning = False
-
-        self.PUB.close()
-        self.SUB.close()
-        self.REP.close()
-
-        self.context.destroy()
-
-    def running(self):
-        return self.isRunning
-
-    def run(self):
-        self.isRunning = True
-        if self.isRunning:
-            self.PUB.send_string("SlicerData")
-
-            try:
-                msg = self.SUB.recv(zmq.DONTWAIT)
-                logging.info(msg)
-            except zmq.Again:
-                pass
-
-            try:
-                msg2 = self.REP.recv(zmq.DONTWAIT)
-                logging.info(msg2)
-                #getDataPackage
-                self.REP.send_string("Reply")
-            except zmq.Again:
-                pass
-
-            qt.QTimer.singleShot(16, self.run)
-
 #
 # ConnectorWidget
 #
@@ -101,8 +46,7 @@ class ConnectorWidget(ScriptedLoadableModuleWidget):
   def setup(self):
     ScriptedLoadableModuleWidget.setup(self)
 
-    self.com = Communication()
-    ConnectorLib.test("ttt")
+    self.comHandler = ConnectorLib.CommunicationHandler()
 
     # Instantiate and connect widgets ...
     #
@@ -184,8 +128,8 @@ class ConnectorWidget(ScriptedLoadableModuleWidget):
     self.onSelect()
 
   def cleanup(self):
-    self.com.stop()
-    pass
+    logging.info('Cleanup')
+    self.comHandler.stop()
 
   def onSelect(self):
     self.applyButton.enabled = self.inputSelector.currentNode() and self.outputSelector.currentNode()
