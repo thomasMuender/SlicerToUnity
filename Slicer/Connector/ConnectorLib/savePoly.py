@@ -9,16 +9,17 @@ def savePoly():
 
     segnodes = slicer.util.getNodesByClass('vtkMRMLSegmentationNode')  # Segmentation _nodes_
 
-    for i in range(len(segnodes)):
+    ### not yet working
+
+    '''for i in range(len(segnodes)):
         segtion.append(segnodes[i].GetSegmentation())
         if segnodes[i].GetSegmentation().GetNumberOfSegments() > 0:
             for j in range(node.GetNumberOfSegments()):
                 polys.append(segnodes[i].GetClosedSurfaceRepresentation(node.GetNthSegmentID(j)))
-
-
-### longer version of code above
-
     '''
+
+    ### working
+
     for i in range(len(segnodes)):
         segtion.append(segnodes[i].GetSegmentation())
     
@@ -30,7 +31,7 @@ def savePoly():
     for i in range(len(segnodes)):
         if segnodes[i].GetSegmentation().GetNumberOfSegments() > 0:
             for poly in range(len(segment)):
-                polys.append(segnodes[i].GetClosedSurfaceRepresentation(segment[poly]))'''
+                polys.append(segnodes[i].GetClosedSurfaceRepresentation(segment[poly]))
 
 ##### from slicer testing
 
